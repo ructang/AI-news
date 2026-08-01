@@ -15,6 +15,17 @@
     "profiles_dir": "profiles",
     "default_profile": "ai-business"
   },
+  "email": {
+    "enabled": true,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 465,
+    "imap_server": "imap.gmail.com",
+    "imap_port": 993,
+    "imap_enabled": false,
+    "email_address": "tangaigc@gmail.com",
+    "password_env": "EMAIL_PASSWORD",
+    "sender_name": "AI News Daily"
+  },
   "display": {
     "icon_style": "emoji"
   },

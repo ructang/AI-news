@@ -7,88 +7,66 @@
     "temperature": 0.3,
     "max_tokens": 8192,
     "throttle_sec": 1,
-    "languages": [
-      "zh",
-      "en"
-    ],
+    "languages": ["zh", "en"],
     "analysis_concurrency": 5,
     "enrichment_concurrency": 5
   },
   "processing": {
     "profiles_dir": "profiles",
-    "default_profile": "tech-news"
+    "default_profile": "ai-business"
+  },
+  "display": {
+    "icon_style": "emoji"
   },
   "sources": {
-    "github": [
-      {
-        "type": "user_events",
-        "username": "karpathy",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "vllm-project",
-        "repo": "vllm",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "sgl-project",
-        "repo": "sglang",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "triton-lang",
-        "repo": "triton",
-        "enabled": true,
-        "profile": "tech-news"
-      }
-    ],
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 30,
-      "min_score": 150,
-      "profile": "tech-news"
+      "min_score": 120,
+      "profile": "ai-news"
     },
     "rss": [
+      {
+        "name": "TechCrunch AI",
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "enabled": true,
+        "category": "ai-business",
+        "profile": "ai-business"
+      },
+      {
+        "name": "VentureBeat AI",
+        "url": "https://venturebeat.com/category/ai/feed/",
+        "enabled": true,
+        "category": "ai-business",
+        "profile": "ai-business"
+      },
+      {
+        "name": "The Verge AI",
+        "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "enabled": true,
+        "category": "ai-apps",
+        "profile": "ai-business"
+      },
+      {
+        "name": "Stratechery",
+        "url": "https://stratechery.com/feed/",
+        "enabled": true,
+        "category": "ai-business-analysis",
+        "profile": "ai-business"
+      },
+      {
+        "name": "机器之心",
+        "url": "https://www.jiqizhixin.com/rss",
+        "enabled": true,
+        "category": "ai-cn",
+        "profile": "ai-news"
+      },
       {
         "name": "Simon Willison",
         "url": "https://simonwillison.net/atom/everything/",
         "enabled": true,
-        "category": "ai-tools",
-        "profile": "tech-news"
-      },
-      {
-        "name": "GitHub Trending - Daily",
-        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
-        "enabled": true,
-        "category": "github-trending",
-        "profile": "tech-news"
-      },
-      {
-        "name": "Zeli",
-        "url": "https://zeli.app/zh/rss.xml",
-        "enabled": true,
-        "category": "ai-news",
-        "profile": "tech-news"
-      },
-      {
-        "name": "Semianalysis",
-        "url": "https://newsletter.semianalysis.com/feed",
-        "enabled": true,
-        "category": "semiconductors",
-        "profile": "tech-news"
-      },
-      {
-        "name": "LWN.net",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
-        "enabled": true,
-        "category": "linux-kernel",
-        "profile": "tech-news"
+        "category": "ai-tech",
+        "profile": "ai-news"
       }
     ],
     "reddit": {
@@ -101,7 +79,7 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 60,
-          "profile": "tech-news"
+          "profile": "ai-news"
         },
         {
           "subreddit": "LocalLLaMA",
@@ -110,20 +88,33 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 60,
-          "profile": "tech-news"
+          "profile": "ai-news"
         }
       ],
       "users": [],
-      "fetch_comments": 10
+      "fetch_comments": 5
     },
-    "telegram": {
+    "google_news": {
       "enabled": true,
-      "channels": [
+      "query": "artificial intelligence company OR startup OR funding OR revenue",
+      "language": "en",
+      "country": "US",
+      "max_results": 40,
+      "category": "ai-business",
+      "profile": "ai-business"
+    },
+    "openbb": {
+      "enabled": false,
+      "fetch_filings": false,
+      "watchlists": [
         {
-          "channel": "zaihuapd",
+          "name": "ai-companies",
           "enabled": true,
+          "provider": "yfinance",
           "fetch_limit": 20,
-          "profile": "tech-news"
+          "category": "ai-companies-finance",
+          "symbols": ["NVDA", "MSFT", "GOOGL", "META", "AMZN", "TSLA", "AMD", "PLTR"],
+          "profile": "ai-business"
         }
       ]
     }
@@ -138,40 +129,13 @@
     "default_group_limit": null
   },
   "webhook": {
-    "enabled": true,
+    "enabled": false,
     "url_env": "HORIZON_WEBHOOK_URL",
-    "delivery": "summary_and_items",
-    "overview_position": "last",
-    "platform": "feishu",
-    "layout": "collapsible",
+    "delivery": "summary",
+    "platform": "generic",
+    "layout": "markdown",
     "fallback_layout": "markdown",
-    "languages": [
-      "zh"
-    ],
-    "request_body": {
-      "msg_type": "interactive",
-      "card": {
-        "schema": "2.0",
-        "config": {
-          "wide_screen_mode": true
-        },
-        "header": {
-          "title": {
-            "tag": "plain_text",
-            "content": "#{message_title}"
-          },
-          "template": "blue"
-        },
-        "body": {
-          "elements": [
-            {
-              "tag": "markdown",
-              "content": "#{summary}"
-            }
-          ]
-        }
-      }
-    },
+    "request_body": {},
     "headers": ""
   }
 }

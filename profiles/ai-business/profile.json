@@ -1,0 +1,35 @@
+{
+  "id": "ai-business",
+  "name": "AI Business",
+  "display_names": {
+    "zh": "AI 商业与公司动态"
+  },
+  "match": "match.md",
+  "analysis": "analysis.md",
+  "filter": {
+    "enabled": true,
+    "threshold": 6.0
+  },
+  "enrichment": {
+    "prompt": "enrichment.md",
+    "blocks": [
+      {
+        "id": "summary",
+        "type": "section",
+        "tools": [],
+        "primary": true
+      },
+      {
+        "id": "business_analysis",
+        "type": "section",
+        "tools": ["web_search"]
+      },
+      {
+        "id": "community_discussion",
+        "type": "section",
+        "tools": [],
+        "optional": true
+      }
+    ]
+  }
+}
